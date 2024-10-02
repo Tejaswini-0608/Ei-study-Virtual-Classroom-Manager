@@ -1,0 +1,17 @@
+// Factory Class
+public static class ClassroomFactory
+{
+    public static Student CreateStudent(int studentId)
+    {
+        return new Student(studentId);
+    }
+
+    public static Assignment CreateAssignment(string assignmentName)
+    {
+        return new Assignment(assignmentName);
+    }
+}
+
+// Usage
+var student1 = ClassroomFactory.CreateStudent(101);
+var assignment1 = ClassroomFactory.CreateAssignment("Math Assignment 1");

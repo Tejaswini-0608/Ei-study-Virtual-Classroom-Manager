@@ -1,0 +1,33 @@
+public class Program
+{
+    public static void Main(string[] args)
+    {
+        ClassroomManager classroomManager = ClassroomManager.GetInstance();
+
+        try
+        {
+            // Add classrooms
+            classroomManager.AddClassroom("Math101");
+            classroomManager.AddClassroom("Physics102");
+
+            // Enroll students
+            Classroom mathClass = classroomManager.GetClassroom("Math101");
+            mathClass.AddStudent(123);
+            mathClass.AddStudent(124);
+
+            // Schedule assignments
+            mathClass.ScheduleAssignment("Assignment1");
+
+            // Submit assignments
+            mathClass.SubmitAssignment(123, "Assignment1");
+
+            // List all classrooms
+            classroomManager.ListClassrooms();
+        }
+        catch (Exception ex)
+        {
+            Logger.Log($"Error: {ex.Message}");
+            Console.WriteLine(ex.Message);
+        }
+    }
+}

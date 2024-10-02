@@ -1,0 +1,82 @@
+public class Classroom
+{
+    public string ClassName { get; }
+    private List<Student> students;
+    private List<Assignment> assignments;
+
+    public Classroom(string className)
+    {
+        ClassName = className;
+        students = new List<Student>();
+        assignments = new List<Assignment>();
+    }
+
+    public void AddStudent(int studentId)
+    {
+        if (!students.Any(s => s.Id == studentId))
+        {
+            students.Add(new Student(studentId));
+            Logger.Log($"Student {studentId} enrolled in {ClassName}.");
+            Console.WriteLine($"Student {studentId} has been enrolled in {ClassName}.");
+        }
+        else
+        {
+            Logger.Log($"Student {studentId} is already enrolled.");
+            Console.WriteLine($"Student {studentId} is already enrolled.");
+        }
+    }
+
+    public void ScheduleAssignment(string assignmentName)
+    {
+        assignments.Add(new Assignment(assignmentName));
+        Logger.Log($"Assignment {assignmentName} scheduled for {ClassName}.");
+        Console.WriteLine($"Assignment {assignmentName} scheduled for {ClassName}.");
+    }
+
+    public void SubmitAssignment(int studentId, string assignmentName)
+    {
+        var student = students.FirstOrDefault(s => s.Id == studentId);
+        var assignment = assignments.FirstOrDefault(a => a.AssignmentName == assignmentName);
+
+        if (student == null || assignment == null)
+        {
+            Logger.Log($"Error: Student or Assignment not found.");
+            throw new Exception($"Error: Student or Assignment not found.");
+        }
+
+        student.SubmitAssignment(assignment);
+        Logger.Log($"Assignment {assignmentName} submitted by Student {studentId}.");
+        Console.WriteLine($"Assignment {assignmentName} submitted by Student {studentId}.");
+    }
+}
+
+public class Student
+{
+    public int Id { get; }
+    private List<Assignment> submittedAssignments;
+
+    public Student(int id)
+    {
+        Id = id;
+        submittedAssignments = new List<Assignment>();
+    }
+
+    public void SubmitAssignment(Assignment assignment)
+    {
+        if (!submittedAssignments.Contains(assignment))
+        {
+            submittedAssignments.Add(assignment);
+            Logger.Log($"Assignment {assignment.AssignmentName} submitted.");
+        }
+    }
+}
+
+public class Assignment
+{
+    public string AssignmentName { get; }
+
+    public Assignment(string name)
+    {
+        AssignmentName = name;
+    }
+}

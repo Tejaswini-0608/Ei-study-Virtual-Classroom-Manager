@@ -1,0 +1,36 @@
+// Base Component
+public interface IStudentService
+{
+    void GetService();
+}
+
+// Concrete Component
+public class BasicStudentService : IStudentService
+{
+    public void GetService()
+    {
+        Console.WriteLine("Basic access to assignments.");
+    }
+}
+
+// Decorator Class
+public class PremiumStudentServiceDecorator : IStudentService
+{
+    private IStudentService studentService;
+
+    public PremiumStudentServiceDecorator(IStudentService studentService)
+    {
+        this.studentService = studentService;
+    }
+
+    public void GetService()
+    {
+        studentService.GetService();
+        Console.WriteLine("Premium access to one-on-one tutoring.");
+    }
+}
+
+// Usage
+IStudentService basicService = new BasicStudentService();
+IStudentService premiumService = new PremiumStudentServiceDecorator(basicService);
+premiumService.GetService();

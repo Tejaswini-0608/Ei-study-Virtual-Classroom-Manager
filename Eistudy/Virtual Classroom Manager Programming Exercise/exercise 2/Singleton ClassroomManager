@@ -1,0 +1,47 @@
+public class ClassroomManager
+{
+    private static ClassroomManager instance = null;
+    private List<Classroom> classrooms;
+
+    private ClassroomManager()
+    {
+        classrooms = new List<Classroom>();
+    }
+
+    public static ClassroomManager GetInstance()
+    {
+        if (instance == null)
+        {
+            instance = new ClassroomManager();
+        }
+        return instance;
+    }
+
+    public void AddClassroom(string className)
+    {
+        classrooms.Add(new Classroom(className));
+        Logger.Log($"Classroom {className} created.");
+        Console.WriteLine($"Classroom {className} has been created.");
+    }
+
+    public Classroom GetClassroom(string className)
+    {
+        return classrooms.FirstOrDefault(c => c.ClassName == className) ?? throw new Exception($"Classroom {className} not found.");
+    }
+
+    public void ListClassrooms()
+    {
+        if (classrooms.Count == 0)
+        {
+            Console.WriteLine("No classrooms available.");
+        }
+        else
+        {
+            Console.WriteLine("Available Classrooms:");
+            foreach (var classroom in classrooms)
+            {
+                Console.WriteLine($"- {classroom.ClassName}");
+            }
+        }
+    }
+}

@@ -1,0 +1,35 @@
+// External grading system with a different interface
+public class ExternalGradingSystem
+{
+    public void GradeAssignment(int studentId, string assignmentName)
+    {
+        Console.WriteLine($"Grading assignment {assignmentName} for student {studentId} using external system.");
+    }
+}
+
+// Target interface
+public interface IGradingSystem
+{
+    void Grade(int studentId, string assignmentName);
+}
+
+// Adapter class
+public class GradingAdapter : IGradingSystem
+{
+    private ExternalGradingSystem externalGrader;
+
+    public GradingAdapter(ExternalGradingSystem externalGrader)
+    {
+        this.externalGrader = externalGrader;
+    }
+
+    public void Grade(int studentId, string assignmentName)
+    {
+        externalGrader.GradeAssignment(studentId, assignmentName);
+    }
+}
+
+// Usage
+var externalGrader = new ExternalGradingSystem();
+var adapter = new GradingAdapter(externalGrader);
+adapter.Grade(101, "Math Assignment 1");

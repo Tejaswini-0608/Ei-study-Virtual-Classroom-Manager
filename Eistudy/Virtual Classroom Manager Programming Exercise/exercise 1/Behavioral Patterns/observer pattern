@@ -1,0 +1,67 @@
+// IObserver Interface
+public interface IObserver
+{
+    void Update(string assignmentName);
+}
+
+// Student Class implementing IObserver
+public class Student : IObserver
+{
+    public int Id { get; }
+    private List<Assignment> submittedAssignments;
+
+    public Student(int id)
+    {
+        Id = id;
+        submittedAssignments = new List<Assignment>();
+    }
+
+    public void Update(string assignmentName)
+    {
+        Console.WriteLine($"Student {Id} notified: New assignment '{assignmentName}' has been added.");
+    }
+
+    public void SubmitAssignment(Assignment assignment)
+    {
+        if (!submittedAssignments.Contains(assignment))
+        {
+            submittedAssignments.Add(assignment);
+            Console.WriteLine($"Assignment {assignment.AssignmentName} submitted by Student {Id}.");
+        }
+    }
+}
+
+// Classroom Class implementing IObservable
+public class Classroom
+{
+    public string ClassName { get; }
+    private List<IObserver> students;
+    private List<Assignment> assignments;
+
+    public Classroom(string className)
+    {
+        ClassName = className;
+        students = new List<IObserver>();
+        assignments = new List<Assignment>();
+    }
+
+    public void AddStudent(Student student)
+    {
+        students.Add(student);
+        Console.WriteLine($"Student {student.Id} enrolled in {ClassName}.");
+    }
+
+    public void ScheduleAssignment(string assignmentName)
+    {
+        assignments.Add(new Assignment(assignmentName));
+        NotifyStudents(assignmentName);
+    }
+
+    private void NotifyStudents(string assignmentName)
+    {
+        foreach (var student in students)
+        {
+            student.Update(assignmentName);
+        }
+    }
+}

@@ -1,0 +1,30 @@
+// ICommand Interface
+public interface ICommand
+{
+    void Execute();
+}
+
+// SubmitAssignmentCommand Class
+public class SubmitAssignmentCommand : ICommand
+{
+    private Student student;
+    private Assignment assignment;
+
+    public SubmitAssignmentCommand(Student student, Assignment assignment)
+    {
+        this.student = student;
+        this.assignment = assignment;
+    }
+
+    public void Execute()
+    {
+        student.SubmitAssignment(assignment);
+    }
+}
+
+// Usage in Classroom
+public void SubmitAssignment(Student student, Assignment assignment)
+{
+    ICommand submitAssignmentCommand = new SubmitAssignmentCommand(student, assignment);
+    submitAssignmentCommand.Execute();
+}
